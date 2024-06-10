@@ -15,6 +15,10 @@ class Register extends Component {
         }
 
     }
+    componentDidMount(){
+
+    }
+
     onSubmit(name, email, password) {
         if (
             name === null || name === '' || name.length < 5
