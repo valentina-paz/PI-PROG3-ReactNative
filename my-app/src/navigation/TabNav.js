@@ -7,6 +7,8 @@ import NewPost from '../screens/NewPost'
 import Perfil from '../screens/Perfil'
 import Buscador from '../screens/Buscador';
 
+const Tab = createBottomTabNavigator()
+
 export default class TabNav extends Component {
   render() {
     return (

@@ -78,7 +78,7 @@ class Login extends Component {
                     <TouchableOpacity
                         onPress={()=> this.redirect()}
                     >
-                        <Text> Ingresa aca!</Text>
+                        <Text> Registrate aquí </Text>
                     </TouchableOpacity>
                     </Text>
                 </View>

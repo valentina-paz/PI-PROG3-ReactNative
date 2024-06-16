@@ -29,7 +29,7 @@ class Register extends Component {
         if (
             email === null || email === '' || !email.includes('@')
         ) {
-            this.setState({ error: 'El email esinvalido' })
+            this.setState({ error: 'El email es invalido' })
             return false
         }
         if (
@@ -44,6 +44,7 @@ class Register extends Component {
             .then((user) => {
                 if (user) {
                     console.log('usuario registrado')
+                    this.props.navigation.navigate('tabnav')
                 }
             })
             .catch((err) => {
@@ -111,7 +112,7 @@ class Register extends Component {
                         <TouchableOpacity
                             onPress={() => this.redirect()}
                         >
-                            <Text>Ingresa aqui</Text>
+                            <Text> Ingresa aquí </Text>
                         </TouchableOpacity>
 
                     </Text>
