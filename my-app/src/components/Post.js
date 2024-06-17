@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import React, { Component } from 'react'
 import {FontAwesome} from '@expo/vector-icons'
 import { auth, db } from '../firebase/config'
@@ -43,6 +43,10 @@ export default class Post extends Component {
   render() {
     return (
       <View>
+        <Image 
+          source={{uri: this.props.post.data.imageUrl}}
+          style={styles.imgPost}
+        />
         <Text>{this.props.post.data.descripcion}</Text>
         <Text>{this.props.post.data.likes.length}</Text>
         {
@@ -59,3 +63,10 @@ export default class Post extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  imgPost: {
+    height: 200,
+    width: '100%'
+  }
+})

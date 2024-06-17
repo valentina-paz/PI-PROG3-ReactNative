@@ -1,6 +1,7 @@
 import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
-import { Camera } from 'expo-camera'
+import { Camera } from 'expo-camera/legacy'
+import { storage, auth } from '../firebase/config'
 
 export default class Camara extends Component {
   constructor(props){
@@ -18,6 +19,32 @@ export default class Camara extends Component {
     .catch(() => console.log('No nos dieron los permisos'))
   }
 
+  tomarFoto(){
+    this.metodosCamara.takePictureAsync()
+    .then((urlTemp) => this.setState({urlTemporal: urlTemp.uri}))
+    .catch((err) => console.log(err))
+  }
+
+  descartarFoto(){
+    this.setState({
+      urlTemporal: ''
+    })
+  }
+
+  guardarFotoEnFirebase(){
+    fetch(this.state.urlTemporal)
+    .then((img) => img.blob())
+    .then((imgProcesada) => {
+      const ref = storage.ref(`fotosPost/${Date.now()}.jpeg`)
+      ref.put(imgProcesada)
+      .then((url) => {
+        ref.getDownloadURL()
+        .then(url => this.props.actualizarImgUrl(url))
+      })
+    })
+    .catch(err => console.log(err))
+  }
+
   render() {
     return (
       <View style={styles.contenedor}>
@@ -25,17 +52,34 @@ export default class Camara extends Component {
             this.state.dioPermiso ?
                 this.state.urlTemporal === '' ?
                 <>
-                    <Camara 
-                    type={Camera.Constants.Type.back}
+                    <Camera 
                     style={styles.camara}
                     ref={(metodos) => this.metodosCamara = metodos}
+                    type={Camera.Constants.Type.back}
                     />
-                    <TouchableOpacity> 
+                    <TouchableOpacity
+                      onPress={() => this.tomarFoto()}
+                    > 
                         <Text>Tomar foto</Text>
                     </TouchableOpacity>
                 </>
                 :
-                <Image />
+                <>
+                  <Image 
+                    style={styles.imagen}
+                    source={{uri: this.state.urlTemporal}}
+                  />
+                  <TouchableOpacity
+                    onPress={() => this.descartarFoto()}
+                  >
+                    <Text>Rechazar foto</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.guardarFotoEnFirebase()}
+                  >
+                    <Text>Aceptar foto</Text>
+                  </TouchableOpacity>
+                </>
             :
             <Text>No diste permisos para usar la camara</Text>
         }
@@ -50,5 +94,9 @@ const styles = StyleSheet.create({
     },
     camara:{
         height: 400
+    },
+    imagen:{
+      height: 400,
+      width: '100%'
     }
 })

@@ -18,13 +18,14 @@ export default class NewPost extends Component {
                 descripcion: descripcion,
                 owner: auth.currentUser.email,
                 createdAt: Date.now(),
-                imageUrl: '',
+                imageUrl: this.state.imgPostUrl,
                 likes: [],
                 comments: []
             })
                 .then((resp) => {
                     this.setState({
-                        descripcion: '' //cuando tengamos la foto tenemos que limpiarla tambien
+                        descripcion: '',
+                        imageUrl: ''
                     },
                         () => this.props.navigation.navigate('home')
                     )
@@ -33,7 +34,7 @@ export default class NewPost extends Component {
         }
     }
 
-    actualizarImgUrl(url){
+    actualizarImgUrl(url) {
         this.setState({
             imgPostUrl: url
         })
@@ -45,21 +46,21 @@ export default class NewPost extends Component {
                 {
                     this.state.imgPostUrl === ''
                         ?
-            <Camara actualizarImgUrl= {(url) => this.actualizarImgUrl()}/>
-            :
-            <>
-                <TextInput
-                    value={this.state.descripcion}
-                    onChangeText={(text) => this.setState({ descripcion: text })}
-                    placeholder='Describe tu post'
-                    style={styles.input}
-                />
-                <TouchableOpacity
-                    onPress={() => this.onSubmit(this.state.descripcion)}
-                >
-                    <Text>Crear post</Text>
-                </TouchableOpacity>
-            </>
+                        <Camara actualizarImgUrl={(url) => this.actualizarImgUrl()} />
+                        :
+                        <>
+                            <TextInput
+                                value={this.state.descripcion}
+                                onChangeText={(text) => this.setState({ descripcion: text })}
+                                placeholder='Describe tu post'
+                                style={styles.input}
+                            />
+                            <TouchableOpacity
+                                onPress={() => this.onSubmit(this.state.descripcion)}
+                            >
+                                <Text>Crear post</Text>
+                            </TouchableOpacity>
+                        </>
                 }
 
             </View>
@@ -68,7 +69,7 @@ export default class NewPost extends Component {
 }
 
 const styles = StyleSheet.create({
-    contenedor:{
+    contenedor: {
         flex: 1,
     },
     input: {
