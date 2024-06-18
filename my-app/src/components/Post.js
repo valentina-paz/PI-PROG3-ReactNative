@@ -9,6 +9,8 @@ export default class Post extends Component {
         super(props)
         this.state = {
             estaMiLike: false,
+           
+
         }
     }
 
@@ -39,6 +41,13 @@ export default class Post extends Component {
     .then((resp) => this.setState({estaMiLike: false}))
     .catch(err => console.log(err))
   }
+  
+  Comentar() {
+    const { navigation, route } = this.props;
+    navigation.navigate('comentarios', { id: route.params.id });
+  }
+  
+  
 
   render() {
     return (
@@ -59,6 +68,11 @@ export default class Post extends Component {
                     <FontAwesome name='heart-o' size={24} color={'red'} />
                 </TouchableOpacity>
             }
+         <TouchableOpacity onPress={() => this.Comentar()}>
+  <Text>Ver Comentarios </Text>
+</TouchableOpacity>
+
+
       </View>
     )
   }

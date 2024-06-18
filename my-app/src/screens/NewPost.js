@@ -8,7 +8,7 @@ export default class NewPost extends Component {
         super(props)
         this.state = {
             descripcion: '',
-            imgPostUrl: '',
+            imgPostUrl: ''
         }
     }
 
@@ -19,8 +19,7 @@ export default class NewPost extends Component {
                 owner: auth.currentUser.email,
                 createdAt: Date.now(),
                 imageUrl: this.state.imgPostUrl,
-                likes: [],
-                comments: []
+                likes: []
             })
                 .then((resp) => {
                     this.setState({
