@@ -13,7 +13,7 @@ export default class NewPost extends Component {
     }
 
     onSubmit(descripcion) {
-        if (descripcion.length != '') {
+        if (descripcion != '') {
             db.collection('posteos').add({
                 descripcion: descripcion,
                 owner: auth.currentUser.email,
@@ -46,7 +46,7 @@ export default class NewPost extends Component {
                 {
                     this.state.imgPostUrl === ''
                         ?
-                        <Camara actualizarImgUrl={(url) => this.actualizarImgUrl()} />
+                        <Camara actualizarImgUrl={(url) => this.actualizarImgUrl(url)} />
                         :
                         <>
                             <TextInput

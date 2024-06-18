@@ -35,7 +35,7 @@ export default class Camara extends Component {
     fetch(this.state.urlTemporal)
     .then((img) => img.blob())
     .then((imgProcesada) => {
-      const ref = storage.ref(`fotosPost/${Date.now()}.jpeg`)
+      const ref = storage.ref(`fotosPosts/${Date.now()}.jpeg`)
       ref.put(imgProcesada)
       .then((url) => {
         ref.getDownloadURL()
