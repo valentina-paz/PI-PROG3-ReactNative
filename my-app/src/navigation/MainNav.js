@@ -6,6 +6,8 @@ import Register from '../screens/Register'
 import Login from '../screens/Login'
 import TabNav from './TabNav'
 import Comentarios from '../screens/Comentarios'
+import PerfilOtroUser from '../screens/PerfilOtroUser'
+import Profile from '../screens/Perfil'
 
 const Stack= createNativeStackNavigator();
 
@@ -28,9 +30,16 @@ class MainNav extends Component {
             component={TabNav} 
             options={{headerShown: false}}/>
             <Stack.Screen
-          name='Comments'
-          component={Comentarios}
-        />
+            name='Comments'
+            component={Comentarios}/>
+            <Stack.Screen 
+            name='miPerfil' 
+            component={Profile} 
+            options={{headerShown: false}}/>
+            <Stack.Screen 
+            name='perfilOtroUser' 
+            component={PerfilOtroUser} 
+            options={{headerShown: false}}/>
         </Stack.Navigator>
      </NavigationContainer>
     )

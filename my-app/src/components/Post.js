@@ -15,7 +15,7 @@ export default class Post extends Component {
     }
 
   componentDidMount(){
-    console.log(this.props)
+    console.log( 'mis props son estas', this.props)
     let estaMiLike = this.props.post !== undefined ? this.props.post.data.likes.includes(auth.currentUser.email) : false
     if(estaMiLike){
         this.setState({estaMiLike: true})
@@ -42,13 +42,18 @@ export default class Post extends Component {
     .catch(err => console.log(err))
   }
   
-  Comentar() {
-    const { navigation, route } = this.props;
-    navigation.navigate('comentarios', { id: route.params.id });
+  comentar() {
+    //const { navigation, route } = this.props;
+    this.props.navigation.navigate('Comments', { id: route.params.id });
+  }
+
+  navegoAlPerfil(){
+    this.props.post.data.owner === auth.currentUser.email ?
+    this.props.navigation.navigate('miPerfil')
+    :
+    this.props.navigation.navigate('perfilOtroUser')
   }
   
-  
-
   render() {
     return (
       <View>
@@ -56,6 +61,9 @@ export default class Post extends Component {
           source={{uri: this.props.post.data.imageUrl}}
           style={styles.imgPost}
         />
+        <TouchableOpacity onPress={() => this.navegoAlPerfil()}>
+          <Text>{this.props.post.data.owner}</Text>
+        </TouchableOpacity>
         <Text>{this.props.post.data.descripcion}</Text>
         <Text>{this.props.post.data.likes.length}</Text>
         {
@@ -68,8 +76,8 @@ export default class Post extends Component {
                     <FontAwesome name='heart-o' size={24} color={'red'} />
                 </TouchableOpacity>
             }
-         <TouchableOpacity onPress={() => this.Comentar()}>
-  <Text>Ver Comentarios </Text>
+         <TouchableOpacity onPress={() => this.comentar()}>
+  <Text> Ver Comentarios </Text> 
 </TouchableOpacity>
 
 

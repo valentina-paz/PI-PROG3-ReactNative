@@ -12,7 +12,9 @@ export default class Home extends Component {
     }
 
     componentDidMount(){
-        db.collection('posteos').onSnapshot((docs) => {
+        db.collection('posteos')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot((docs) => {
             let postObtenidos = []
 
             docs.forEach(doc => {
@@ -35,7 +37,7 @@ export default class Home extends Component {
             data={this.state.posteos}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => 
-            <Post post={item}/>}
+            <Post post={item} navigation={this.props.navigation}/>}
         />
       </View>
     )

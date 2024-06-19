@@ -24,7 +24,7 @@ export default class Profile extends Component {
     redirect() { //lo deberia hacer en cerras sesion
       this.props.navigation.navigate('login')
       
-
+        //cuando cierre sesion tienen que reiniciarse los campos, chequear que siguen completos!!
   }
     render() {
     return (
