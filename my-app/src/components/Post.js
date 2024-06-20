@@ -23,7 +23,7 @@ export default class Post extends Component {
   }
 
   ponerLike(){
-    db.collection('posteos')
+    db.collection('posts')
         .doc(this.props.post.id)
         .update({
             likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
@@ -33,7 +33,7 @@ export default class Post extends Component {
   }
 
   sacarLike(){
-    db.collection('posteos')
+    db.collection('posts')
     .doc(this.props.post.id)
     .update({
         likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
@@ -77,7 +77,7 @@ export default class Post extends Component {
                 </TouchableOpacity>
             }
          <TouchableOpacity onPress={() => this.comentar()}>
-  <Text> Ver Comentarios </Text> 
+  <Text> Ver Comentarios: {this.props.post.data.comentarios.length} </Text> 
 </TouchableOpacity>
 
 

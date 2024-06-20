@@ -14,12 +14,13 @@ export default class NewPost extends Component {
 
     onSubmit(descripcion) {
         if (descripcion != '') {
-            db.collection('posteos').add({
+            db.collection('posts').add({
                 descripcion: descripcion,
                 owner: auth.currentUser.email,
                 createdAt: Date.now(),
                 imageUrl: this.state.imgPostUrl,
-                likes: []
+                likes: [],
+                comentarios: [],
             })
                 .then((resp) => {
                     this.setState({

@@ -12,7 +12,7 @@ export default class Home extends Component {
     }
 
     componentDidMount(){
-        db.collection('posteos')
+        db.collection('posts')
         .orderBy('createdAt', 'desc')
         .onSnapshot((docs) => {
             let postObtenidos = []
