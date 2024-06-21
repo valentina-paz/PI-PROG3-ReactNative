@@ -41,8 +41,17 @@ class Register extends Component {
         }
 
         auth.createUserWithEmailAndPassword(email, password)
+        
             .then((user) => {
                 if (user) {
+                    db.collection('users')
+                    .add({
+                      name: this.state.name,
+                      password: this.state.password,
+                      email: this.state.email,
+                      miniBio: this.state.miniBio,
+                      FotoPerfil: this.state.FotoPerfil
+                    })
                     console.log('usuario registrado')
                     this.props.navigation.navigate('tabnav')
                 }
