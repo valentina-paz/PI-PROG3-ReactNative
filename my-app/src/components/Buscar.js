@@ -29,5 +29,6 @@ export default class Buscar extends Component {
 const styles = StyleSheet.create({
     form: {
         color: 'black',
+        backgroundColor: 'grey'
     },
 })
