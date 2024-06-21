@@ -8,6 +8,7 @@ export default class Buscador extends Component {
     super()
     this.state = {
       users: [],
+      todosMisUsers: [],
       busqueda: ''
     }
   }
@@ -23,10 +24,11 @@ export default class Buscador extends Component {
           })
         })
         this.setState({
-          users: users
+          users: users,
+          todosMisUsers: users 
         })
       })
-      {console.log('estos son mis users' + this.state.users.length)}
+      {console.log('estos son mis users' + this.state.users)}
   }
 
   guardarBusqueda(valorInput) {
@@ -35,10 +37,19 @@ export default class Buscador extends Component {
     })
   }
 
+  filtroUsers(busqueda){
+    let filteredUsers = this.state.todosMisUsers.filter((elm) => elm.data.name.toLowerCase().includes(busqueda.toLowerCase()))
+    this.setState({
+      users: filteredUsers
+    })
+  }
+
   render() {
     return (
       <View>
-        <Buscar guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} />
+        {console.log('estos son mis users' + this.state.users)}
+        {console.log('esta es mi busqueda' + this.state.busqueda)}
+        <Buscar guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} filtroUsers={(busqueda) => this.filtroUsers(busqueda)} />
         { this.state.busqueda !== '' ?
         (this.state.users.length !== 0 ?
           <View>

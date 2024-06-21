@@ -10,12 +10,16 @@ export default class Buscar extends Component {
         evento.preventDefault()
     }
 
+    filtradoYGuardado(busqueda){
+        this.props.guardarBusqueda(busqueda)
+        this.props.filtroUsers(busqueda)
+    }
     render() {
         return (
             <View>
                 <Text>Buscador</Text>
                 <TextInput
-                    onChangeText={(text) => this.props.guardarBusqueda(text)}
+                    onChangeText={(busqueda) => this.filtradoYGuardado(busqueda)}
                     //value={this.state.password}
                     placeholder='Busca un usuario'
                     keyboardType='default'
