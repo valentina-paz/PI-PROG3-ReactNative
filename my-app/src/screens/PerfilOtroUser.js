@@ -13,8 +13,8 @@ export default class PerfilOtroUser extends Component {
     }
 
 componentDidMount(){
-  db.collection('usuarios')
-  .where('owner', '==', this.props.route.params.user)
+  db.collection('users')
+  .where('email', '==', this.props.route.params.user)
   .onSnapshot((docs)=> {
       let arrayUsuarios = []       
       docs.forEach((doc)=> {
@@ -27,8 +27,8 @@ componentDidMount(){
           usuarios: arrayUsuarios[0].data}, ()=> console.log(this.state.usuarios))
   })
 
-  db.collection('posteos')
-  .where('owner', '==', this.props.route.params.user)
+  db.collection('posts')
+  .where('email', '==', this.props.route.params.user)
   .onSnapshot((docs)=> {
       let arrayPosteo = []
       docs.forEach((doc)=> {
@@ -59,7 +59,7 @@ render () {
                     source={item.data.FotoPerfil}
                     resizeMode="contain"
                   /> ) : ''}
-                <Text>Email del usuario: {item.data.owner}</Text>
+                <Text>Email del usuario: {item.data.email}</Text>
                 
               </View>
             )}
