@@ -12,7 +12,6 @@ class Login extends Component {
         }
 
     }
-    
     //Para ver si algun usuario esta logueado
     componentDidMount(){
       auth.onAuthStateChanged ((user) => {

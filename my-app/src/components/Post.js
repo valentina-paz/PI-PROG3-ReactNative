@@ -9,8 +9,6 @@ export default class Post extends Component {
         super(props)
         this.state = {
             estaMiLike: false,
-           
-
         }
     }
 
