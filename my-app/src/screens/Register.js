@@ -16,6 +16,7 @@ class Register extends Component {
 
     }
     componentDidMount(){
+        console.log(this.state)
 
     }
 

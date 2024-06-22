@@ -4,6 +4,7 @@ import{ auth, db} from '../firebase/config'
 import Feather from '@expo/vector-icons/Feather';
 import Post from '../components/Post';
 
+
 class Perfil extends Component {
     constructor(props){
         super(props)
@@ -17,7 +18,7 @@ class Perfil extends Component {
     }
     componentDidMount(){
         db
-        .collection('users').where("owner", "==", auth.currentUser.email).onSnapshot((docs)=>{
+        .collection('users').where("email", "==", auth.currentUser.email).onSnapshot((docs)=>{
            let arrDocs = []
            docs.forEach((doc)=>{
             arrDocs.push({
@@ -25,12 +26,11 @@ class Perfil extends Component {
                 data:doc.data()
             })
            })
-            this.setState({
-            usuario : arrDocs[0].data,
-            id: arrDocs[0].id
-          }, () => console.log(this.state.usuarios))
-        
-        })
+           this.setState({
+            usuarios: arrDocs,
+            hayData: true 
+        }, () => console.log(this.state.usuarios))
+    })
         db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(docs =>{
             let arrPosts = []
             docs.forEach(doc =>{
@@ -45,6 +45,7 @@ class Perfil extends Component {
                 },()=> console.log(this.state.posts))
                 
         })
+        console.log(this.state.usuarios)
         
         
     }
@@ -63,29 +64,29 @@ class Perfil extends Component {
     return (
       <View>
         <View>
-            <Text>Bienvenido/a a tu perfil: {this.state.usuarios.name}</Text>
+      <Text >Bienvenido/a a tu perfil</Text>
+      <Text>el email logueado es:</Text>
+      <Text>{auth.currentUser.email}</Text>
+    
         </View>
-        <Text>el email logueado es:</Text>
-        <Text>{auth.currentUser.email}</Text>
-        <View>
+     <View>
             <Text>
                 <FlatList 
         data={this.state.usuarios}
         keyExtractor={(item)=> item.id.toString()}
         renderItem={({item})=> <View>
+            <Text> Foto de perfil: {item.data.FotoPerfil}</Text>
             <Text>nombre: {item.data.name}</Text>
             <Text>bio: {item.data.miniBio}</Text>
+            
             </View>
         }
         /></Text>
              </View>
            
-        <Image //me parece que no funciona
-                  source={{uri: this.state.usuarios.FotoPerfil ? this.state.usuarios.FotoPerfil : 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg'}}
-                  
-                  resizeMode = 'contain'
-                />
-        
+          
+          
+            
         <View>
         <TouchableOpacity style={styles.cerrarSesionBtn} onPress={()=> this.cerrarSesion()}>
                   <Text >cerrar sesion<Feather name="log-out" size={24} color="black" />

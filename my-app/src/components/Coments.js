@@ -36,11 +36,15 @@ class Coments extends Component {
         value= {this.state.comentario} 
         style={styles.input}/>
 
-                   
+        
         <TouchableOpacity
-        onPress={()=>this.enviarComentario(this.state.comentario)}>  
+        onPress={()=>this.state.comentario==''? alert('no puedes enviar un comentario vacio') 
+        :this.enviarComentario(this.state.comentario) 
+        }>  
         <FontAwesome name='send' size={30} color={'black'} />
         </TouchableOpacity>
+             
+        
       </View>
     )
   }
