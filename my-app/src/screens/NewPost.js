@@ -25,7 +25,8 @@ export default class NewPost extends Component {
                 .then((resp) => {
                     this.setState({
                         descripcion: '',
-                        imageUrl: ''
+                        imageUrl: '',
+                        imgPostUrl: ''
                     },
                         () => this.props.navigation.navigate('home')
                     )

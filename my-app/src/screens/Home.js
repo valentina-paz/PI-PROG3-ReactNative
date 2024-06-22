@@ -32,18 +32,14 @@ export default class Home extends Component {
 
   render() {
     return (
-        <ScrollView>
              <View>
         <FlatList
             data={this.state.posteos}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => 
-            <Post navigation={this.props.navigation} post={item} />}
+            <Post navigation={this.props.navigation} post={item} id={item.id} />}
         />
       </View>
-
-        </ScrollView>
-     
     )
   }
 }
