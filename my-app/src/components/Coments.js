@@ -34,9 +34,7 @@ class Coments extends Component {
         keyboardType='default'
         onChangeText={(text)=>this.setState({comentario: text})}
         value= {this.state.comentario} 
-        multiline={true}
-        numberOfLines={5}
-        style={StyleSheet.input}/>
+        style={styles.input}/>
 
                    
         <TouchableOpacity
@@ -51,7 +49,7 @@ class Coments extends Component {
 export default Coments
 const styles = StyleSheet.create({
   input : {
-    borderwidth: 1,
+    borderWidth: 1,
     borderColor: 'green'
   }
 })
