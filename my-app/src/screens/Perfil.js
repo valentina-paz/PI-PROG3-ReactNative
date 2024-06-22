@@ -132,6 +132,7 @@ class Perfil extends Component {
     )
   }
 }
+
 export default Perfil
 const styles =StyleSheet.create({
     cerrarSesionBtn :{
@@ -140,38 +141,3 @@ const styles =StyleSheet.create({
 
     }
 })
-
-/*
-
-      
-  }
-
-   
-
-
-
-  render() {
-    return (
-     
-                <View >
-                
-                <Text>Tus posteos</Text>
-                {
-                  this.state.posts.length === 0 ?
-                  <Text> Todavia no hay posteos.</Text>
-                  :
-                  <></>
-                }
-                <View >
-                <FlatList
-                        data={this.state.posts}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) =>
-                            <View>
-                                <Post navigation={this.props.navigation} data={item} id={item.id} profile = {true}/>
-                                
-                            </View>
-                        }
-                />
-                </View>
-                </View> )}}*/

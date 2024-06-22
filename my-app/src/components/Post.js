@@ -49,8 +49,10 @@ export default class Post extends Component {
     this.props.post.data.owner === auth.currentUser.email ?
     this.props.navigation.navigate('miPerfil')
     :
-    this.props.navigation.navigate('perfilOtroUser',  { user: this.props.email})
+    this.props.navigation.navigate('perfilOtroUser',  { user: this.props.post.data.owner})
   }
+
+
   
   render() {
     return (

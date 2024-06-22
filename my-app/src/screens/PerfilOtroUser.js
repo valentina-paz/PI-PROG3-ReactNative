@@ -1,4 +1,4 @@
-import { Text, View, ActivityIndicator, FlatList, Image, TouchableOpacity,StyleSheet} from 'react-native'
+import { Text, View, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
 import React, { Component } from 'react'
 import {db, auth } from '../firebase/config'
 import Post from '../components/Post'
@@ -12,79 +12,98 @@ export default class PerfilOtroUser extends Component {
         }
     }
 
-componentDidMount(){
-  db.collection('users')
-  .where('email', '==', this.props.route.params.user)
-  .onSnapshot((docs)=> {
-      let arrayUsuarios = []       
-      docs.forEach((doc)=> {
-          arrayUsuarios.push({
-              id: doc.id,
-              data: doc.data()
+    componentDidMount(){
+      db.collection('users').where('email', '==', this.props.route.params.user).onSnapshot((docs)=> {
+          let arrUser = []       
+          docs.forEach((doc)=> {
+            console.log('users'+ doc.id)
+              arrUser.push({
+                  id: doc.id,
+                  data: doc.data()
+              })
           })
+          this.setState({
+            usuarios: arrUser[0].data
+          }, ()=> console.log(this.state.usuarios))
       })
-      this.setState({
-          usuarios: arrayUsuarios[0].data}, ()=> console.log(this.state.usuarios))
-  })
 
-  db.collection('posts')
-  .where('email', '==', this.props.route.params.user)
-  .onSnapshot((docs)=> {
-      let arrayPosteo = []
-      docs.forEach((doc)=> {
-          arrayPosteo.push({
-              id: doc.id,
-              data: doc.data()
+      db.collection('posts').where('owner', '==', this.props.route.params.user).onSnapshot((docs)=> {
+          let arrPost = []
+          docs.forEach((doc)=> {
+            console.log('posts' + doc.id)
+              arrPost.push({
+                  id: doc.id,
+                  data: doc.data()
+              })
           })
+          this.setState({
+            posteos: arrPost
+          }, ()=> console.log(this.state.posteos))
       })
-      this.setState({
-          posteos: arrayPosteo }, ()=> console.log(this.state.posteos))
-  })
-}
+  }
 
 render () {
   return (
     <View>
-        <View> 
-          <Text> Perfil </Text>
-          <FlatList
-            data={this.state.usuarios}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              
-              <View>
-                <Text> Usuario: {item.data.name}</Text>
-                {item.data.fotoPerfil != '' ? (
-                  <Image
-                    source={item.data.FotoPerfil}
-                    resizeMode="contain"
-                  /> ) : ''}
-                <Text>Email del usuario: {item.data.email}</Text>
-                
-              </View>
-            )}
-          />
-        </View>
+      <text style={styles.text}> la url de la foto de perfil es: {this.state.usuarios.FotoPerfil}</text>
+      <text style={styles.text}>soy el perfil de: {this.state.usuarios.name}</text>
+      <text style={styles.text}>el email es: {this.state.usuarios.email}</text>
+      <text style={styles.text}>minibio: {this.state.usuarios.miniBio}</text>
 
-          <Text>Posteos</Text>
-          <Text>Cantidad de posteos: {this.state.posteos.length}</Text>
-          {
-            this.state.posteos.length === 0 
-            ?
-            <Text> El usuario no tiene posteos aun.</Text>
-            :
-            <></>
-          }
-          <FlatList
-            data={this.state.posteos}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View>
-                <Post navigation={this.props.navigation} data={item.data} id={item.id} />
-              </View>
-            )}
-          />
-      </View>
+
+      <text>POSTEOS</text>
+      <FlatList
+                        data={this.state.posteos}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) =>
+                            <View>
+                                <Post navigation={this.props.navigation} post={item} id={item.id} />
+                                
+                            </View>
+                        }
+                />
+    </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  signoutBtn:{
+    backgroundColor: '#4caf50',
+      color: '#fff',
+      padding: 10,
+      border: 'none',
+      borderRadius: 4,
+      width: 100
+  },
+  img: {
+    width: 100,
+    height: 100,
+    borderRadius: '50%'
+},
+btn:{
+  backgroundColor: '#87ceeb',
+  color: '#fff',
+  padding: 10,
+  border: 'none',
+  borderRadius: 4,
+  width: 150
+},
+text: {
+    color: 'red'
+},
+container: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 'wrap',
+  flexDirection: 'wrap'
+},
+backgroundImage: {
+  flex: 1,
+  resizeMode: 'cover', 
+  justifyContent: 'center',
+},
+txt: {
+    color: 'white'
+}
+})
