@@ -40,9 +40,12 @@ export default class Post extends Component {
     .catch(err => console.log(err))
   }
   
-  comentar() {
-    
-    this.props.navigation.navigate('Comments', {id: this.props.post});
+ 
+
+  
+  verComentarios(){
+    this.props.navigation.navigate('Comments', {id:this.props.id})
+
   }
 
   navegoAlPerfil(){
@@ -77,10 +80,11 @@ export default class Post extends Component {
                 </TouchableOpacity>
             }
           <View>
-            <TouchableOpacity onPress={() => this.comentar()}>
-              <Text>comentar</Text>
-            <Text> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
-            </TouchableOpacity>
+          
+              <TouchableOpacity onPress={()=>this.verComentarios()}> <Text> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
+              </TouchableOpacity>
+           
+           
             </View>
          
 
