@@ -1,4 +1,4 @@
-import { Text, View, FlatList } from 'react-native'
+import { Text, View, FlatList, ScrollView } from 'react-native'
 import React, { Component } from 'react'
 import Post from '../components/Post'
 import { db } from '../firebase/config'
@@ -32,14 +32,18 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View>
+        <ScrollView>
+             <View>
         <FlatList
             data={this.state.posteos}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => 
-            <Post post={item} navigation={this.props.navigation}/>}
+            <Post navigation={this.props.navigation} post={item} />}
         />
       </View>
+
+        </ScrollView>
+     
     )
   }
 }

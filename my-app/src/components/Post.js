@@ -41,20 +41,20 @@ export default class Post extends Component {
   }
   
   comentar() {
-    //const { navigation, route } = this.props;
-    this.props.navigation.navigate('Comments', { id: route.params.id });
+    
+    this.props.navigation.navigate('Comments', {id: this.props.post});
   }
 
   navegoAlPerfil(){
     this.props.post.data.owner === auth.currentUser.email ?
     this.props.navigation.navigate('miPerfil')
     :
-    this.props.navigation.navigate('perfilOtroUser',  { user: this.props.data.email})
+    this.props.navigation.navigate('perfilOtroUser',  { user: this.props.email})
   }
   
   render() {
     return (
-      <View>
+      <View style={styles.containerPost}>
         <Image 
           source={{uri: this.props.post.data.imageUrl}}
           style={styles.imgPost}
@@ -74,9 +74,13 @@ export default class Post extends Component {
                     <FontAwesome name='heart-o' size={24} color={'red'} />
                 </TouchableOpacity>
             }
-         <TouchableOpacity onPress={() => this.comentar()}>
-  <Text> Ver Comentarios: {this.props.post.data.comentarios.length} </Text> 
-</TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => this.comentar()}>
+              <Text>comentar</Text>
+            <Text> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
+            </TouchableOpacity>
+            </View>
+         
 
 
       </View>
@@ -85,6 +89,9 @@ export default class Post extends Component {
 }
 
 const styles = StyleSheet.create({
+  containerPost: {
+    marginBottom: 16
+  },
   imgPost: {
     height: 200,
     width: '100%'

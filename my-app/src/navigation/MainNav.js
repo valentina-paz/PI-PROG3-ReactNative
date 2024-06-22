@@ -31,7 +31,8 @@ class MainNav extends Component {
             options={{headerShown: false}}/>
             <Stack.Screen
             name='Comments'
-            component={Comentarios}/>
+            component={Comentarios}
+            options={{headerShown: true}}/>
             <Stack.Screen 
             name='miPerfil' 
             component={Profile} 
