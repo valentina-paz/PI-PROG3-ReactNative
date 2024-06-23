@@ -40,7 +40,7 @@ class MainNav extends Component {
             <Stack.Screen 
             name='perfilOtroUser' 
             component={PerfilOtroUser} 
-            options={{headerShown: false}}/>
+            options={{headerShown: true}}/>
         </Stack.Navigator>
      </NavigationContainer>
     )

@@ -45,20 +45,22 @@ export default class PerfilOtroUser extends Component {
 render () {
   return (
     <View>
+      <text>Posteos de {this.state.usuarios.email}</text>
+      <text style={styles.text}> Minibio: {this.state.usuarios.miniBio}</text>
       <text style={styles.text}> la url de la foto de perfil es: {this.state.usuarios.FotoPerfil}</text>
-      <text style={styles.text}>soy el perfil de: {this.state.usuarios.name}</text>
-      <text style={styles.text}>el email es: {this.state.usuarios.email}</text>
-      <text style={styles.text}>minibio: {this.state.usuarios.miniBio}</text>
-
-
-      <text>POSTEOS</text>
+      <text> Cantidad de posteos de {this.state.usuarios.name}: {this.state.posteos.length}</text>
+                {
+                  this.state.posteos.length === 0 ?
+                  <Text style={styles.text}>You don't have posts yet.</Text>
+                  :
+                  <></>
+                }
       <FlatList
                         data={this.state.posteos}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) =>
                             <View>
-                                <Post navigation={this.props.navigation} post={item} id={item.id} />
-                                
+                                <Post navigation={this.props.navigation} post={item} id={item.id} />  
                             </View>
                         }
                 />
@@ -68,42 +70,7 @@ render () {
 }
 
 const styles = StyleSheet.create({
-  signoutBtn:{
-    backgroundColor: '#4caf50',
-      color: '#fff',
-      padding: 10,
-      border: 'none',
-      borderRadius: 4,
-      width: 100
-  },
-  img: {
-    width: 100,
-    height: 100,
-    borderRadius: '50%'
-},
-btn:{
-  backgroundColor: '#87ceeb',
-  color: '#fff',
-  padding: 10,
-  border: 'none',
-  borderRadius: 4,
-  width: 150
-},
 text: {
     color: 'red'
 },
-container: {
-  alignItems: 'center',
-  justifyContent: 'center',
-  flex: 'wrap',
-  flexDirection: 'wrap'
-},
-backgroundImage: {
-  flex: 1,
-  resizeMode: 'cover', 
-  justifyContent: 'center',
-},
-txt: {
-    color: 'white'
-}
 })
