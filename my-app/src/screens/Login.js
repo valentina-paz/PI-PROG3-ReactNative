@@ -18,8 +18,12 @@ class Login extends Component {
         if(user){
           console.log('Este es el mail logueado' ,auth.currentUser.email);
         }
+        this.borrarCampos();
       })
     }
+    borrarCampos = () => {
+        this.setState({ email: '', password: '', error: '' });
+    };
 
     onSubmit(email, password) {
         if (
@@ -39,18 +43,19 @@ class Login extends Component {
     .then(user => {this.props.navigation.navigate('tabnav')})
     .catch(err => {
       if(err.code === 'auth/internal-error'){
-        this.setState({error: 'Contraseña incorrecta'})
+        this.setState({error: 'Los datos ingresados son incorrectos'})
       }
     })
 
     }
     redirect(){
       this.props.navigation.navigate('register')
+      this.borrarCampos();
   }
     render() {
         return (
-            <View>
-                <Text>Loguea tu usuario</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Loguea tu usuario</Text>
                 <TextInput
                     onChangeText={(text) => this.setState({ email: text })}
                     value={this.state.email}
@@ -63,27 +68,28 @@ class Login extends Component {
                     value={this.state.password}
                     placeholder='Indica tu contraseña'
                     keyboardType='default'
+                    secureTextEntry={true}
                     style={styles.input}
                 ></TextInput>
                 <TouchableOpacity
                     style={styles.btn}
                     onPress={() => this.onSubmit(this.state.email, this.state.password)}
                 >
-                    <Text style={styles.textBtn}>Loguearme</Text>
+                    <Text style={styles.btnText}>Loguearme</Text>
                 </TouchableOpacity>
-                <View>
-                    <Text>
+                <View style={styles.registerContainer}>
+                    <Text >
                         No tenes una cuenta?
                     <TouchableOpacity
                         onPress={()=> this.redirect()}
                     >
-                        <Text> Registrate aquí </Text>
+                        <Text style={styles.registerText}> Registrate aquí </Text>
                     </TouchableOpacity>
                     </Text>
                 </View>
                 {
                     this.state.error !== '' ?
-                        <Text>
+                        <Text style={styles.errorText}>
                             {this.state.error}
                         </Text>
                         :
@@ -93,22 +99,53 @@ class Login extends Component {
     )
     }
 }
+
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f0f0f0',
+        padding: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     input: {
-        borderColor: 'red',
+        width: '100%',
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
-        marginBottom: 16,
-
+        paddingHorizontal: 10,
+        marginBottom: 15,
+        backgroundColor: '#ffffff',
     },
     btn: {
-        backgroundColor: 'green',
-        textAlign: 'center',
-        padding: 10
+        width: '100%',
+        backgroundColor: '#4CAF50',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
     },
-    textBtn: {
+    btnText: {
         color: 'white',
-    }
-})
+        fontSize: 16,
+    },
+    registerContainer: {
+        flexDirection: 'row',
+        marginTop: 15,
+    },
+    registerText: {
+        marginLeft: 5,
+        color: 'blue',
+    },
+    errorText: {
+        color: 'red',
+        marginTop: 10,
+    },
+});
 
 export default Login;

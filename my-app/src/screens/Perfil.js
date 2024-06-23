@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native'
 import React, { Component } from 'react'
 import { auth, db } from '../firebase/config'
 import Feather from '@expo/vector-icons/Feather';
@@ -11,8 +11,6 @@ class Perfil extends Component {
         this.state = {
             usuarios: [],
             posts: [],
-            hayData: false
-
         }
 
     }
@@ -28,7 +26,6 @@ class Perfil extends Component {
                 })
                 this.setState({
                     usuarios: arrDocs,
-                    hayData: true
                 }, () => console.log(this.state.usuarios))
             })
         db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(docs => {
@@ -54,10 +51,15 @@ class Perfil extends Component {
     }
 
     borrarPost(postId) {
-        db
-            .collection('posts')
+         db.collection('posts')
             .doc(postId)
-            .delete();
+            .delete()
+            .then(() => {
+                console.log('Post borrado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al borrar el post:', error);
+            });
     }
 
     borrarMiPerfil() {
@@ -89,9 +91,22 @@ class Perfil extends Component {
             .catch((error) => {
                 console.error('No se pudieron encontrar los datos del usuario. Error: ', error);
             });
+
+    }
+    confirmarEliminarPost(postId) {
+        console.log('Borrando post con ID:', postId);
+        Alert.alert(
+            'Confirmar Borrado',
+            '¿Estás seguro de que deseas borrar este post?',
+            [
+                { text: 'Cancelar'},
+                { text: 'Confirmar', onPress: () => this.borrarPost(postId) }
+            ]
+        );
     }
 
     render() {
+        console.log('Posts:', this.state.posts);
         return (
             <View>
                 <View>
@@ -100,6 +115,7 @@ class Perfil extends Component {
                     <Text>{auth.currentUser.email}</Text>
 
                 </View>
+                
                 <View>
                     <Text>
                         <FlatList
@@ -137,9 +153,8 @@ class Perfil extends Component {
                             renderItem={({ item }) =>
                                 <View>
                                     <Post navigation={this.props.navigation} post={item} />
-                                    <TouchableOpacity
-                                        onPress={() => this.borrarPost(item.id)}>
-                                        <Text >Borrar posteo</Text>
+                                    <TouchableOpacity onPress={() => this.confirmarEliminarPost(item.id)}>
+                                        <Text>Borrar posteo</Text>
                                     </TouchableOpacity>
                                 </View>
                             }
