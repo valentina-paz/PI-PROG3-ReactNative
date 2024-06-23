@@ -44,6 +44,13 @@ export default class Buscador extends Component {
     })
   }
 
+  navegoAlPerfil(user){
+    user === auth.currentUser.email ?
+    this.props.navigation.navigate('miPerfil')
+    :
+    this.props.navigation.navigate('perfilOtroUser',  { user: user})
+  }
+
   render() {
     return (
       <View>
@@ -57,8 +64,10 @@ export default class Buscador extends Component {
           <FlatList
             data={this.state.users}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) =>
-              <Text>{item.data.name}</Text>}
+            renderItem={({ item }) => 
+              <TouchableOpacity onPress={() => this.navegoAlPerfil(item.data.email)}>
+              <Text>{item.data.name}</Text>
+              </TouchableOpacity>}
           />
           </View>
           :
