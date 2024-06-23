@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native'
 import React, { Component } from 'react'
 import {FontAwesome} from '@expo/vector-icons'
 import { auth, db } from '../firebase/config'
@@ -75,6 +75,15 @@ export default class Post extends Component {
                 </TouchableOpacity>
             }
           <View>
+            <FlatList 
+              data={this.props.post.data.comentarios.slice(-4).reverse()} //electiva 4 comentarios debajo del post
+              keyExtractor={(item, index) => index.toString()} //usamos index porque no tiene id y si no tira error porque item puede no ser unico
+              renderItem={({item}) => 
+              <View> 
+                <Text>{item.owner}</Text>
+                <Text>{item.comentario}</Text>
+              </View>}
+            />
               <TouchableOpacity onPress={()=>this.verComentarios()}> <Text> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
               </TouchableOpacity>
             </View>

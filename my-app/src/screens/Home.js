@@ -4,42 +4,42 @@ import Post from '../components/Post'
 import { db } from '../firebase/config'
 
 export default class Home extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
             posteos: []
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         db.collection('posts')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((docs) => {
-            let postObtenidos = []
+            .orderBy('createdAt', 'desc')
+            .onSnapshot((docs) => {
+                let postObtenidos = []
 
-            docs.forEach(doc => {
-                postObtenidos.push({
-                    id: doc.id,
-                    data: doc.data()
+                docs.forEach(doc => {
+                    postObtenidos.push({
+                        id: doc.id,
+                        data: doc.data()
+                    })
+                })
+
+                this.setState({
+                    posteos: postObtenidos
                 })
             })
-            
-            this.setState({
-                posteos: postObtenidos
-            })
-        })
     }
 
-  render() {
-    return (
-             <View>
-        <FlatList
-            data={this.state.posteos}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => 
-            <Post navigation={this.props.navigation} post={item} id={item.id} />}
-        />
-      </View>
-    )
-  }
+    render() {
+        return (
+            <ScrollView>
+                <FlatList
+                    data={this.state.posteos}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) =>
+                        <Post navigation={this.props.navigation} post={item} id={item.id} />}
+                />
+            </ScrollView>
+        )
+    }
 }
