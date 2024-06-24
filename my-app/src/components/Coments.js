@@ -23,7 +23,9 @@ class Coments extends Component {
         createdAt: Date.now(),
         comentario: comentario
       })
+
     })
+    this.setState({comentario:''})
 
   }
   render() {

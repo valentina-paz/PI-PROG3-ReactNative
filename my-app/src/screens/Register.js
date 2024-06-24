@@ -87,6 +87,7 @@ class Register extends Component {
                     value={this.state.password}
                     placeholder='Indica tu contraseña'
                     keyboardType='default'
+                    secureTextEntry={true}
                     style={styles.input}
                 ></TextInput>
                 <TextInput

@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, Alert, ScrollView } from 'react-native'
 import React, { Component } from 'react'
 import { auth, db } from '../firebase/config'
 import Feather from '@expo/vector-icons/Feather';
@@ -16,7 +16,8 @@ class Perfil extends Component {
     }
     componentDidMount() {
         db
-            .collection('users').where("email", "==", auth.currentUser.email).onSnapshot((docs) => {
+            .collection('users').where("email", "==", auth.currentUser.email)
+            .onSnapshot((docs) => {
                 let arrDocs = []
                 docs.forEach((doc) => {
                     arrDocs.push({
@@ -28,7 +29,8 @@ class Perfil extends Component {
                     usuarios: arrDocs,
                 }, () => console.log(this.state.usuarios))
             })
-        db.collection('posts').where('owner', '==', auth.currentUser.email).onSnapshot(docs => {
+        db.collection('posts').where('owner', '==', auth.currentUser.email)
+        .orderBy('createdAt', 'desc').onSnapshot(docs => {
             let arrPosts = []
             docs.forEach(doc => {
                 arrPosts.push({
@@ -108,6 +110,7 @@ class Perfil extends Component {
     render() {
         console.log('Posts:', this.state.posts);
         return (
+            <ScrollView>
             <View>
                 <View>
                     <Text >Bienvenido/a a tu perfil</Text>
@@ -164,6 +167,7 @@ class Perfil extends Component {
                 <View>
                 </View>
             </View >
+            </ScrollView>
         )
     }
 }
