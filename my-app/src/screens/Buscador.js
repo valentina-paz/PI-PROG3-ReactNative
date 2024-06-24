@@ -38,7 +38,11 @@ export default class Buscador extends Component {
   }
 
   filtroUsers(busqueda){
-    let filteredUsers = this.state.todosMisUsers.filter((elm) => elm.data.name.toLowerCase().includes(busqueda.toLowerCase()))
+    let filteredUsers = this.state.todosMisUsers.filter((elm) => 
+      elm.data.name.toLowerCase().includes(busqueda.toLowerCase())
+  ||
+      elm.data.email.toLowerCase().includes(busqueda.toLowerCase()) //electiva buscador avanzado
+);
     this.setState({
       users: filteredUsers
     })
@@ -67,6 +71,7 @@ export default class Buscador extends Component {
             renderItem={({ item }) => 
               <TouchableOpacity onPress={() => this.navegoAlPerfil(item.data.email)}>
               <Text>{item.data.name}</Text>
+              <Text>{item.data.email}</Text> 
               </TouchableOpacity>}
           />
           </View>

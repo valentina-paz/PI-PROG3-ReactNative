@@ -1,55 +1,56 @@
-import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, Alert, ScrollView } from 'react-native'
-import React, { Component } from 'react'
-import { auth, db } from '../firebase/config'
+import React, { Component } from 'react';
+import { Text, View, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native';
+import { auth, db } from '../firebase/config';
 import Feather from '@expo/vector-icons/Feather';
 import Post from '../components/Post';
 
-
 class Perfil extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             usuarios: [],
             posts: [],
-        }
-
+        };
     }
+
     componentDidMount() {
-        db
-            .collection('users').where("email", "==", auth.currentUser.email)
+        db.collection('users')
+            .where("email", "==", auth.currentUser.email)
             .onSnapshot((docs) => {
-                let arrDocs = []
+                let arrDocs = [];
                 docs.forEach((doc) => {
                     arrDocs.push({
                         id: doc.id,
                         data: doc.data()
-                    })
-                })
+                    });
+                });
                 this.setState({
                     usuarios: arrDocs,
-                }, () => console.log(this.state.usuarios))
-            })
-        db.collection('posts').where('owner', '==', auth.currentUser.email)
-        .orderBy('createdAt', 'desc').onSnapshot(docs => {
-            let arrPosts = []
-            docs.forEach(doc => {
-                arrPosts.push({
-                    id: doc.id,
-                    data: doc.data()
-                })
-            })
-            this.setState({
-                hayData: true,
-                posts: arrPosts
-            }, () => console.log(this.state.posts))
+                });
+            });
 
-        })
-        console.log(this.state.usuarios)
+        db.collection('posts')
+            .where('owner', '==', auth.currentUser.email)
+            //.orderBy('createdAt', 'desc')
+            .onSnapshot(docs => {
+                let arrPosts = [];
+                docs.forEach(doc => {
+                    arrPosts.push({
+                        id: doc.id,
+                        data: doc.data()
+                    });
+                });
+                arrPosts.sort((a, b) => b.data.createdAt - a.data.createdAt)
+                this.setState({
+                    hayData: true,
+                    posts: arrPosts
+                });
+            });
     }
 
     cerrarSesion() {
-        auth.signOut
-        this.props.navigation.navigate('login')
+        auth.signOut();
+        this.props.navigation.navigate('login');
     }
 
     borrarMiPerfil() {
@@ -65,13 +66,13 @@ class Perfil extends Component {
                         .then(() => {
                             user.delete()
                                 .then(() => {
-                                    console.log('Se ha eliminado al usuario con exito')
-                                    this.props.navigation.navigate('register')
+                                    console.log('Se ha eliminado al usuario con exito');
+                                    this.props.navigation.navigate('register');
                                 })
                                 .catch((err) => {
                                     console.log('No se pudo eliminar el usuario. Error: ' + err);
                                 });
-                            console.log('Se han eliminado los datos del usuario con exito')
+                            console.log('Se han eliminado los datos del usuario con exito');
                         })
                         .catch((error) => {
                             console.error('No se pudieron eliminar los datos del usuario. Error: ' + error);
@@ -81,24 +82,10 @@ class Perfil extends Component {
             .catch((error) => {
                 console.error('No se pudieron encontrar los datos del usuario. Error: ', error);
             });
-
     }
-    
-    // confirmarEliminarPost = (postId) => {
-    //     console.log('Borrando post con ID:', postId);
-    //     Alert.alert(
-    //         'Confirmar Borrado',
-    //         '¿Estás seguro de que deseas borrar este post?',
-    //         [
-    //             { text: 'Cancelar'},
-    //             { text: 'Confirmar', onPress: () => this.borrarPost(postId) }
-    //         ]
-    //     );
-    // }
 
-    borrarPost = (postId)=> {
-        console.log('Dentro de borrarPost con ID:', postId);
-         db.collection('posts')
+    borrarPost = (postId) => {
+        db.collection('posts')
             .doc(postId)
             .delete()
             .then(() => {
@@ -108,76 +95,157 @@ class Perfil extends Component {
                 console.error('Error al borrar el post:', error);
             });
     }
+
     render() {
-        console.log('Posts:', this.state.posts);
         return (
-            <ScrollView>
-            <View>
-                <View>
-                    <Text >Bienvenido/a a tu perfil</Text>
-                    <Text>el email logueado es:</Text>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Bienvenido/a a tu perfil</Text>
+                    <Text>El email logueado es:</Text>
                     <Text>{auth.currentUser.email}</Text>
-
                 </View>
-                
-                <View>
-                    <Text>
-                        <FlatList
-                            data={this.state.usuarios}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => <View>
-                                <Text> Foto de perfil: {item.data.fotoPerfil}</Text>
-                                <Text>nombre: {item.data.name}</Text>
-                                <Text>bio: {item.data.miniBio}</Text>
 
+                <View style={styles.userInfoContainer}>
+                    <FlatList
+                        data={this.state.usuarios}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <View style={styles.userItem}>
+                                <Text style={styles.boldText}>Nombre:</Text>
+                                <Text>{item.data.name}</Text>
+                                <Text style={styles.boldText}>Bio:</Text>
+                                <Text>{item.data.miniBio}</Text>
+                                {item.data.fotoPerfil !== '' ? (
+                                    <Image
+                                        style={styles.userAvatar}
+                                        source={{ uri: item.data.fotoPerfil }}
+                                        resizeMode="contain"
+                                    />
+                                ) : (
+                                    null
+                                )}
                             </View>
-                            }
-                        /></Text>
+                        )}
+                    />
                 </View>
-                <View>
-                    <TouchableOpacity style={styles.cerrarSesionBtn} onPress={() => this.cerrarSesion()}>
-                        <Text >cerrar sesion<Feather name="log-out" size={24} color="black" />
-                        </Text>
+
+                <View style={styles.buttonsContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => this.cerrarSesion()}>
+                        <Text style={styles.buttonText}>Cerrar sesión <Feather name="log-out" size={24} color="white" /></Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.borrarMiPerfil()}>
-                        <Text>Eliminar mi perfil</Text>
+                    <TouchableOpacity style={styles.deleteButton} onPress={() => this.borrarMiPerfil()}>
+                        <Text style={[styles.buttonText, styles.deleteButtonText]}>Eliminar perfil</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
-                    {
-                        this.state.posts.length === 0 ?
-                            <Text> Todavia no tienes posteos.</Text>
-                            :
-                            <Text>Aqui se muestran tus posteos</Text>
-                    }
-                    <View >
-                        <FlatList
-                            data={this.state.posts}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) =>
-                                <View>
-                                    <Post navigation={this.props.navigation} post={item} />
-                                    <TouchableOpacity onPress={() => this.borrarPost(item.id)}>
-                                        <Text>Borrar posteo</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            }
-                        />
-                    </View>
+
+                <View style={styles.postsContainer}>
+                    {this.state.posts.length === 0 ? (
+                        <Text style={styles.noPostsText}>Todavía no tienes posteos.</Text>
+                    ) : (
+                        <Text style={styles.postsText}>Aquí se muestran tus posteos</Text>
+                    )}
+                    <FlatList
+                        data={this.state.posts}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <View style={styles.postItem}>
+                                <Post navigation={this.props.navigation} post={item} />
+                                <TouchableOpacity style={styles.deletePostButton} onPress={() => this.borrarPost(item.id)}>
+                                    <Text style={styles.deletePostText}>Borrar posteo</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    />
                 </View>
-                <View>
-                </View>
-            </View >
-            </ScrollView>
-        )
+            </View>
+        );
     }
 }
 
-export default Perfil
 const styles = StyleSheet.create({
-    cerrarSesionBtn: {
-        backgroundColor: 'green',
-        padding: 16
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingHorizontal: 20,
+        paddingTop: 20,
+    },
+    header: {
+        marginBottom: 20,
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    boldText: {
+        fontWeight: 'bold',
+    },
+    userInfoContainer: {
+        marginBottom: 20,
+    },
+    userItem: {
+        marginBottom: 10,
+    },
+    userAvatar: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+    button: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        backgroundColor: '#4CAF50', 
+        borderRadius: 5,
+    },
+    deleteButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        backgroundColor: '#E57373', 
+        borderRadius: 5,
+        marginLeft: 10,
+    },
+    buttonText: {
+        fontSize: 16,
+        color: 'white',
+    },
+    deleteButtonText: {
+        fontSize: 14, 
+    },
+    postsContainer: {
+        flex: 1,
+    },
+    noPostsText: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    postsText: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    postItem: {
+        marginBottom: 20,
+    },
+    deletePostButton: {
+        alignItems: 'center',
+        paddingVertical: 10,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    deletePostText: {
+        color: 'red',
+    },
+});
 
-    }
-})
+export default Perfil;
+
+
