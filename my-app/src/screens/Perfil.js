@@ -31,7 +31,7 @@ class Perfil extends Component {
 
         db.collection('posts')
             .where('owner', '==', auth.currentUser.email)
-            //.orderBy('createdAt', 'desc')
+            
             .onSnapshot(docs => {
                 let arrPosts = [];
                 docs.forEach(doc => {
@@ -42,7 +42,7 @@ class Perfil extends Component {
                 });
                 arrPosts.sort((a, b) => b.data.createdAt - a.data.createdAt)
                 this.setState({
-                    hayData: true,
+                    
                     posts: arrPosts
                 });
             });
@@ -50,6 +50,11 @@ class Perfil extends Component {
 
     cerrarSesion() {
         auth.signOut();
+        this.setState={
+            usuarios:[],
+            post:[],
+
+        }
         this.props.navigation.navigate('login');
     }
 
