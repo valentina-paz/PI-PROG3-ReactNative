@@ -8,6 +8,7 @@ import TabNav from './TabNav'
 import Comentarios from '../screens/Comentarios'
 import PerfilOtroUser from '../screens/PerfilOtroUser'
 import Profile from '../screens/Perfil'
+import Adicional from '../screens/Adicional'
 
 const Stack= createNativeStackNavigator();
 
@@ -41,6 +42,10 @@ class MainNav extends Component {
             name='perfilOtroUser' 
             component={PerfilOtroUser} 
             options={{headerShown: true}}/>
+            <Stack.Screen
+            name='Adicional'
+            component={Adicional}
+            options={{headerShown:false}}/>
         </Stack.Navigator>
      </NavigationContainer>
     )

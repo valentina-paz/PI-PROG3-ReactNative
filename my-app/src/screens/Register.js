@@ -10,7 +10,7 @@ class Register extends Component {
             password: '',
             email: '',
             miniBio: '',
-            FotoPerfil: '',
+            fotoPerfil: '',
 
         }
 
@@ -51,10 +51,10 @@ class Register extends Component {
                       password: this.state.password,
                       email: this.state.email,
                       miniBio: this.state.miniBio,
-                      FotoPerfil: this.state.FotoPerfil
+                      fotoPerfil: ''
                     })
                     console.log('usuario registrado')
-                    this.props.navigation.navigate('tabnav')
+                    this.props.navigation.navigate('Adicional',{docId:resp.id})
                 }
             })
             .catch((err) => {

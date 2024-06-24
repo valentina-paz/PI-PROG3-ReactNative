@@ -125,7 +125,7 @@ class Perfil extends Component {
                             data={this.state.usuarios}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => <View>
-                                <Text> Foto de perfil: {item.data.FotoPerfil}</Text>
+                                <Text> Foto de perfil: {item.data.fotoPerfil}</Text>
                                 <Text>nombre: {item.data.name}</Text>
                                 <Text>bio: {item.data.miniBio}</Text>
 
