@@ -21,7 +21,7 @@ class Login extends Component {
         this.borrarCampos();
       })
     }
-    borrarCampos = () => {
+    borrarCampos(){
         this.setState({ email: '', password: '', error: '' });
     };
 
@@ -78,7 +78,7 @@ class Login extends Component {
                     <Text style={styles.btnText}>Loguearme</Text>
                 </TouchableOpacity>
                 <View style={styles.registerContainer}>
-                    <Text >
+                    <Text style={styles.btnText}>
                         No tenes una cuenta?
                     <TouchableOpacity
                         onPress={()=> this.redirect()}
@@ -105,13 +105,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#134056',
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: 'white',
     },
     input: {
         width: '100%',
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     },
     registerText: {
         marginLeft: 5,
-        color: 'blue',
+        color: '#BADBEC',
     },
     errorText: {
         color: 'red',

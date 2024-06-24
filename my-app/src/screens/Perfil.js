@@ -52,18 +52,6 @@ class Perfil extends Component {
         this.props.navigation.navigate('login')
     }
 
-    borrarPost(postId) {
-         db.collection('posts')
-            .doc(postId)
-            .delete()
-            .then(() => {
-                console.log('Post borrado correctamente');
-            })
-            .catch((error) => {
-                console.error('Error al borrar el post:', error);
-            });
-    }
-
     borrarMiPerfil() {
         const user = auth.currentUser;
         const userEmail = user.email;
@@ -95,18 +83,31 @@ class Perfil extends Component {
             });
 
     }
-    confirmarEliminarPost(postId) {
-        console.log('Borrando post con ID:', postId);
-        Alert.alert(
-            'Confirmar Borrado',
-            '¿Estás seguro de que deseas borrar este post?',
-            [
-                { text: 'Cancelar'},
-                { text: 'Confirmar', onPress: () => this.borrarPost(postId) }
-            ]
-        );
-    }
+    
+    // confirmarEliminarPost = (postId) => {
+    //     console.log('Borrando post con ID:', postId);
+    //     Alert.alert(
+    //         'Confirmar Borrado',
+    //         '¿Estás seguro de que deseas borrar este post?',
+    //         [
+    //             { text: 'Cancelar'},
+    //             { text: 'Confirmar', onPress: () => this.borrarPost(postId) }
+    //         ]
+    //     );
+    // }
 
+    borrarPost = (postId)=> {
+        console.log('Dentro de borrarPost con ID:', postId);
+         db.collection('posts')
+            .doc(postId)
+            .delete()
+            .then(() => {
+                console.log('Post borrado correctamente');
+            })
+            .catch((error) => {
+                console.error('Error al borrar el post:', error);
+            });
+    }
     render() {
         console.log('Posts:', this.state.posts);
         return (
@@ -156,7 +157,7 @@ class Perfil extends Component {
                             renderItem={({ item }) =>
                                 <View>
                                     <Post navigation={this.props.navigation} post={item} />
-                                    <TouchableOpacity onPress={() => this.confirmarEliminarPost(item.id)}>
+                                    <TouchableOpacity onPress={() => this.borrarPost(item.id)}>
                                         <Text>Borrar posteo</Text>
                                     </TouchableOpacity>
                                 </View>
