@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#134056'
     },
     headerText: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#333',
+        color: 'white',
         marginBottom: 10,
         textAlign: 'center',
     },

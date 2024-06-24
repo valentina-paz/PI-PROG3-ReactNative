@@ -60,31 +60,31 @@ export default class Post extends Component {
           style={styles.imgPost}
         />
         <TouchableOpacity onPress={() => this.navegoAlPerfil()}>
-          <Text>{this.props.post.data.owner}</Text>
+          <Text style={styles.ownerText}>{this.props.post.data.owner}</Text>
         </TouchableOpacity>
-        <Text>{this.props.post.data.descripcion}</Text>
-        <Text>{this.props.post.data.likes.length}</Text>
+        <Text style={styles.description}>{this.props.post.data.descripcion}</Text>
+        <Text style={styles.likes}>{this.props.post.data.likes.length}</Text>
         {
             this.state.estaMiLike ?
-                <TouchableOpacity onPress={()=> this.sacarLike()}>
+                <TouchableOpacity onPress={()=> this.sacarLike()} style={styles.likeButton}>
                     <FontAwesome name='heart' size={24} color={'red'} />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity onPress={()=> this.ponerLike()}>
+                <TouchableOpacity onPress={()=> this.ponerLike()} style={styles.likeButton}>
                     <FontAwesome name='heart-o' size={24} color={'red'} />
                 </TouchableOpacity>
             }
-          <View>
+          <View style={styles.commentsContainer}>
             <FlatList 
               data={this.props.post.data.comentarios.slice(-4).reverse()} //electiva 4 comentarios debajo del post
               keyExtractor={(item, index) => index.toString()} //usamos index porque no tiene id y si no tira error porque item puede no ser unico
               renderItem={({item}) => 
-              <View> 
-                <Text>{item.owner}</Text>
-                <Text>{item.comentario}</Text>
+              <View style={styles.commentItem}> 
+                <Text style={styles.commentOwner}>{item.owner}</Text>
+                <Text style={styles.commentText}>{item.comentario}</Text>
               </View>}
             />
-              <TouchableOpacity onPress={()=>this.verComentarios()}> <Text> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
+              <TouchableOpacity onPress={()=>this.verComentarios()}> <Text style={styles.viewCommentsText}> Ver comentarios: {this.props.post.data.comentarios.length} </Text>
               </TouchableOpacity>
             </View>
       </View>
@@ -94,10 +94,61 @@ export default class Post extends Component {
 
 const styles = StyleSheet.create({
   containerPost: {
-    marginBottom: 16
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 16,
   },
   imgPost: {
     height: 200,
-    width: '100%'
-  }
-})
+    width: '100%',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  ownerContainer: {
+    marginBottom: 5,
+  },
+  ownerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  description: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 10,
+  },
+  likes: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 10,
+  },
+  likeButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  commentsContainer: {
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    paddingTop: 10,
+  },
+  commentItem: {
+    marginBottom: 5,
+  },
+  commentOwner: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  commentText: {
+    fontSize: 14,
+    color: '#666',
+  },
+  viewCommentsButton: {
+    marginTop: 10,
+  },
+  viewCommentsText: {
+    fontSize: 14,
+    color: '#007bff',
+  },
+});

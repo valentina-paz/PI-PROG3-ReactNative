@@ -16,13 +16,13 @@ export default class Buscar extends Component {
     }
     render() {
         return (
-            <View>
-                <Text>Buscador</Text>
+            <View style={styles.container}>
+                <Text style={styles.title}>Buscador</Text>
                 <TextInput
                     onChangeText={(busqueda) => this.filtradoYGuardado(busqueda)}
                     placeholder='Busca un usuario'
                     keyboardType='default'
-                    style={styles.form}
+                    style={styles.input}
                 ></TextInput>
             </View>
         )
@@ -30,8 +30,26 @@ export default class Buscar extends Component {
 }
 
 const styles = StyleSheet.create({
-    form: {
-        color: 'black',
-        backgroundColor: 'grey'
+    container: {
+        padding: 20,
+        margin: 10,
+        backgroundColor: '#fff',
+        borderRadius: 10
     },
-})
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    input: {
+        height: 40,
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 20,
+        paddingHorizontal: 10,
+        backgroundColor: '#f2f2f2',
+        color: '#333',
+    },
+});
