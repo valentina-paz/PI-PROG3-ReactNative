@@ -57,30 +57,69 @@ export default class Buscador extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         {console.log('estos son mis users' + this.state.users)}
         {console.log('esta es mi busqueda' + this.state.busqueda)}
         <Buscar guardarBusqueda={(valorInput) => this.guardarBusqueda(valorInput)} filtroUsers={(busqueda) => this.filtroUsers(busqueda)} />
         { this.state.busqueda !== '' ?
         (this.state.users.length !== 0 ?
           <View>
-          <Text>Resultados para: {this.state.busqueda}</Text>
+          <Text style={styles.resultText}>Resultados para: {this.state.busqueda}</Text>
           <FlatList
             data={this.state.users}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => 
-              <TouchableOpacity onPress={() => this.navegoAlPerfil(item.data.email)}>
-              <Text>{item.data.name}</Text>
-              <Text>{item.data.email}</Text> 
+              <TouchableOpacity style={styles.userItem} onPress={() => this.navegoAlPerfil(item.data.email)}>
+              <Text style={styles.userName}>{item.data.name}</Text>
+              <Text style={styles.userEmail}>{item.data.email}</Text> 
               </TouchableOpacity>}
           />
           </View>
           :
-          <h2>No se encontraron resultados para: {this.state.busqueda}</h2>)
+          <Text style={styles.noResultsText}>No se encontraron resultados para: {this.state.busqueda}</Text>)
           :
-          <Text>Busca un usuario</Text>
+          <Text style={styles.noResultsText}>Busca un usuario</Text>
         }
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#134056',
+      padding: 20,
+  },
+  resultText: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+      color: 'white',
+  },
+  userItem: {
+      width: '100%',
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      borderRadius: 5,
+      paddingHorizontal: 10,
+      marginBottom: 15,
+      backgroundColor: '#ffffff',
+  },
+  userName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#333',
+  },
+  userEmail: {
+      fontSize: 14,
+      color: '#666',
+  },
+  noResultsText: {
+      color: 'red',
+      marginTop: 10,
+  },
+});

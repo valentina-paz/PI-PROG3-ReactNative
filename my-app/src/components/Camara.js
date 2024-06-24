@@ -47,41 +47,44 @@ export default class Camara extends Component {
 
   render() {
     return (
-      <View style={styles.contenedor}>
+      <View style={styles.container}>
         {
             this.state.dioPermiso ?
                 this.state.urlTemporal === '' ?
                 <>
                     <Camera 
-                    style={styles.camara}
+                    style={styles.camera}
                     ref={(metodos) => this.metodosCamara = metodos}
                     type={Camera.Constants.Type.back}
                     />
                     <TouchableOpacity
+                    style={styles.acepto}
                       onPress={() => this.tomarFoto()}
                     > 
-                        <Text>Tomar foto</Text>
+                        <Text style={styles.textBtn}>Tomar foto</Text>
                     </TouchableOpacity>
                 </>
                 :
                 <>
                   <Image 
-                    style={styles.imagen}
+                    style={styles.image}
                     source={{uri: this.state.urlTemporal}}
                   />
                   <TouchableOpacity
+                  style={styles.rechazo}
                     onPress={() => this.descartarFoto()}
                   >
-                    <Text>Rechazar foto</Text>
+                    <Text style={styles.textBtn}>Rechazar foto</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
+                  style={styles.acepto}
                     onPress={() => this.guardarFotoEnFirebase()}
                   >
-                    <Text>Aceptar foto</Text>
+                    <Text style={styles.textBtn}>Aceptar foto</Text>
                   </TouchableOpacity>
                 </>
             :
-            <Text>No diste permisos para usar la camara</Text>
+            <Text style={styles.errorText}>No diste permisos para usar la camara</Text>
         }
       </View>
     )
@@ -89,14 +92,45 @@ export default class Camara extends Component {
 }
 
 const styles = StyleSheet.create({
-    contenedor:{
-        flex: 1
-    },
-    camara:{
-        height: 400
-    },
-    imagen:{
+  container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#134056',
+      padding: 20,
+  },
+  camera: {
+      height: 500,
+      width: 500,
+      marginBottom: 10,
+  },
+  image: {
       height: 400,
-      width: '100%'
-    }
-})
+      width: '100%',
+      marginBottom: 20,
+  },
+  acepto: {
+      width: '100%',
+      backgroundColor: '#4CAF50',
+      padding: 10,
+      borderRadius: 5,
+      alignItems: 'center',
+      marginTop: 10,
+  },
+  rechazo: {
+    width: '100%',
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+},
+  textBtn: {
+      color: 'white',
+      fontSize: 16,
+  },
+  errorText: {
+      color: 'white',
+      fontSize: 16,
+  },
+});

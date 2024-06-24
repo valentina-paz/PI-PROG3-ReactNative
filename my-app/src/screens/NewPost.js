@@ -43,7 +43,7 @@ export default class NewPost extends Component {
 
     render() {
         return (
-            <View style={styles.contenedor}>
+            <View style={styles.container}>
                 {
                     this.state.imgPostUrl === ''
                         ?
@@ -56,10 +56,10 @@ export default class NewPost extends Component {
                                 placeholder='Describe tu post'
                                 style={styles.input}
                             />
-                            <TouchableOpacity
+                            <TouchableOpacity style={styles.btn}
                                 onPress={() => this.onSubmit(this.state.descripcion)}
                             >
-                                <Text>Crear post</Text>
+                                <Text style={styles.textBtn}>Crear post</Text>
                             </TouchableOpacity>
                         </>
                 }
@@ -70,11 +70,33 @@ export default class NewPost extends Component {
 }
 
 const styles = StyleSheet.create({
-    contenedor: {
+    container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#134056',
+        padding: 20,
     },
     input: {
-        borderColor: 'green',
+        width: '100%',
+        height: 40,
+        borderColor: 'gray',
         borderWidth: 1,
-    }
-})
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 15,
+        backgroundColor: '#ffffff',
+    },
+    btn: {
+        width: '100%',
+        backgroundColor: '#4CAF50',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    textBtn: {
+        color: 'white',
+        fontSize: 16,
+    },
+});

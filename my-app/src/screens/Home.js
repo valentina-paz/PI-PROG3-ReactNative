@@ -32,20 +32,29 @@ export default class Home extends Component {
 
     render() {
         return (
-            
+            <View style={styles.container}>
+                <Text style={styles.headerText}> Doggogram </Text>
                 <FlatList style={styles.container}
                     data={this.state.posteos}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) =>
                         <Post navigation={this.props.navigation} post={item} id={item.id} />}
                 />
-           
+            </View>
         )
     }
 }
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      padding: 10
-  },
-  })
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#f2f2f2',
+    },
+    headerText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+});
