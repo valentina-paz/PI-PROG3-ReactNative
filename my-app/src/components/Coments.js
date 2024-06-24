@@ -30,7 +30,7 @@ class Coments extends Component {
   }
   render() {
     return (
-      <View>
+      <View style={styles.formContainer}>
         <TextInput
         placeholder='Agrega un comentario'
         keyboardType='default'
@@ -40,6 +40,7 @@ class Coments extends Component {
 
         
         <TouchableOpacity
+         style={styles.sendButton}
         onPress={()=>this.state.comentario==''? alert('no puedes enviar un comentario vacio') 
         :this.enviarComentario(this.state.comentario) 
         }>  
@@ -53,9 +54,27 @@ class Coments extends Component {
 }
 
 export default Coments
+
 const styles = StyleSheet.create({
-  input : {
+  formContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    borderColor: '#ccc',
     borderWidth: 1,
-    borderColor: 'green'
-  }
-})
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  sendButton: {
+    padding: 10,
+    borderRadius: 20,
+  },
+});

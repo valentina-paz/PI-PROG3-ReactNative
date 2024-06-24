@@ -46,15 +46,20 @@ render () {
   return (
     <View style={styles.container}>
       <View style={styles.profileHeader}>
-      {/* {this.state.usuarios.fotoPerfil != '' ? (
-                  <Image
-                    source={this.state.usuarios.fotoPerfil}
-                    style={styles.img}
-                    resizeMode="contain"
-                  />
-                ) : ''} */}
-        <Text style={styles.headerText}>Posteos de {this.state.usuarios.name}</Text>
-        <Text style={styles.bioText}>Minibio: <Text style={styles.bioContent}>{this.state.usuarios.miniBio}</Text></Text>
+      <Text style={styles.headerText}>Perfil de  {this.state.usuarios.name}</Text>
+      <Image
+          source={{uri: this.state.usuarios.fotoPerfil ? this.state.usuarios.fotoPerfil : 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg'}}
+          style = {styles.img}
+          resizeMode = 'contain'
+      />
+         {
+                  this.state.usuarios.miniBio === '' ?
+                  <Text style={styles.noPostsText}>El usuario no tiene Biografia.</Text>
+                  :
+                  <Text style={styles.noBio}>{this.state.usuarios.miniBio}</Text>
+                }
+        
+        
        
         <Text style={styles.postCountText}> Cantidad de posteos de {this.state.usuarios.name}: {this.state.posteos.length}</Text>
       </View>
@@ -84,6 +89,18 @@ const styles = StyleSheet.create({
       padding: 10,
       backgroundColor: '#134056'
   },
+  noBio: {
+    fontStyle: 'italic',
+      marginTop: 10,
+      textAlign: 'center',
+      color: '#0F6591',
+  },
+  userAvatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 15,
+  },
   img: {
     width: '100%',
     height: 200,
@@ -96,11 +113,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#BADBEC',
       padding: 15,
       borderRadius: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
   },
   headerText: {
       fontSize: 24,
@@ -131,7 +143,8 @@ postCountText: {
       fontStyle: 'italic',
       marginTop: 10,
       textAlign: 'center',
-      color: '#666',
+      color: 'white',
+      fontSize: 25
   },
   postsContainer: {
       backgroundColor: '#ffffff',

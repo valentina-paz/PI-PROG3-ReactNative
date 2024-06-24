@@ -101,8 +101,7 @@ class Perfil extends Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Bienvenido/a a tu perfil</Text>
-                    <Text>El email logueado es:</Text>
-                    <Text>{auth.currentUser.email}</Text>
+                    <Text>El email logueado es: {auth.currentUser.email}</Text>
                 </View>
 
                 <View style={styles.userInfoContainer}>
@@ -111,19 +110,15 @@ class Perfil extends Component {
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
                             <View style={styles.userItem}>
-                                <Text style={styles.boldText}>Nombre:</Text>
-                                <Text>{item.data.name}</Text>
-                                <Text style={styles.boldText}>Bio:</Text>
-                                <Text>{item.data.miniBio}</Text>
-                                {item.data.fotoPerfil !== '' ? (
-                                    <Image
+                                <Text style={styles.boldText}>Nombre: {item.data.name}</Text>
+                                <Image
                                         style={styles.userAvatar}
-                                        source={{ uri: item.data.fotoPerfil }}
+                                        source={{uri: item.data.fotoPerfil ? item.data.fotoPerfil : 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg'}}
                                         resizeMode="contain"
                                     />
-                                ) : (
-                                    null
-                                )}
+                                <Text style={styles.boldText}>Bio: {item.data.miniBio}</Text>
+                                    
+                                
                             </View>
                         )}
                     />
@@ -134,7 +129,7 @@ class Perfil extends Component {
                         <Text style={styles.buttonText}>Cerrar sesión <Feather name="log-out" size={24} color="white" /></Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.deleteButton} onPress={() => this.borrarMiPerfil()}>
-                        <Text style={[styles.buttonText, styles.deleteButtonText]}>Eliminar perfil</Text>
+                        <Text style={[styles.buttonText, styles.deleteButtonText]}>Eliminar perfil <Feather name="trash-2" size={24} color="white" /></Text>
                     </TouchableOpacity>
                 </View>
 
@@ -187,9 +182,9 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     userAvatar: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: 100,
+        height: 100,
+        borderRadius:50
     },
     buttonsContainer: {
         flexDirection: 'row',
