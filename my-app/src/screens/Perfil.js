@@ -56,7 +56,7 @@ class Perfil extends Component {
         const user = auth.currentUser;
         const userEmail = user.email;
         db.collection('users')
-            .where('owner', '==', userEmail)
+            .where('email', '==', userEmail)
             .get()
             .then((docs) => {
                 docs.forEach((doc) => {
